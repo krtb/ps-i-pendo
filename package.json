@@ -1,0 +1,22 @@
+{
+  "name": "ps-i-pendo",
+  "version": "1.0.0",
+  "description": "backend api client",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krtb/ps-i-pendo.git"
+  },
+  "author": "kurt bauer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/krtb/ps-i-pendo/issues"
+  },
+  "homepage": "https://github.com/krtb/ps-i-pendo#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
