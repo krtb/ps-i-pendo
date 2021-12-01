@@ -18,5 +18,10 @@
   "homepage": "https://github.com/krtb/ps-i-pendo#readme",
   "dependencies": {
     "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
+    "babel-loader": "^8.2.3"
   }
 }
