@@ -51,5 +51,5 @@ module.exports = {
     hot: true,
   },
 
-  plugins: [new ESLintPlugin({ extensions: 'ts' })],
+  plugins: [new ESLintPlugin({ extensions: 'ts', })],
 };
