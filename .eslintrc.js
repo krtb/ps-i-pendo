@@ -12,5 +12,7 @@ module.exports = {
   rules: {
     semi: ['error', 'always'],
     quotes: ['error', 'single'],
+    'import/no-extraneous-dependencies': 0,
+    'no-console': 'off',
   },
 };
