@@ -20,22 +20,23 @@ module.exports = {
     ],
   },
   module: {
-    rules: [{
-      test: /\.ts$/i,
-      exclude: /node_modules/,
-      use: {
-        loader: 'ts-loader',
+    rules: [
+      {
+        test: /\.ts$/i,
+        exclude: /node_modules/,
+        use: {
+          loader: 'ts-loader',
+        },
       },
-    },
-    {
-      test: /\.js$/i,
-      // memory expensive to runa against all node files
-      exclude: /node_modules/,
-      // tell webpack to use .babel.rc file, with configs
-      use: {
-        loader: 'babel-loader',
+      {
+        test: /\.js$/i,
+        // memory expensive to runa against all node files
+        exclude: /node_modules/,
+        // tell webpack to use .babel.rc file, with configs
+        use: {
+          loader: 'babel-loader',
+        },
       },
-    },
     ],
   },
 
@@ -51,5 +52,5 @@ module.exports = {
     hot: true,
   },
 
-  plugins: [new ESLintPlugin({ extensions: 'ts', })],
+  plugins: [new ESLintPlugin({ extensions: ['ts', 'js' ]})],
 };
