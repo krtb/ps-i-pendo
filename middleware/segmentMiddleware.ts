@@ -18,7 +18,7 @@ export const getASingleSegmentID = (
   })
     .then((data) => {
       console.log(data, 'this is my response');
-      return next();
+      next();
     })
     .catch((err) => {
       console.log('there was the following error', err);
@@ -31,5 +31,5 @@ export const logSomething = (
   next: NextFunction,
 ) => {
   console.log('This works!');
-  return next();
+  next();
 };
