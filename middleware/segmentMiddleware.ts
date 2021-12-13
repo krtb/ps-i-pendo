@@ -1,28 +1,87 @@
 import type { NextFunction, Request, Response } from 'express';
 import axios, { AxiosResponse } from 'axios';
 
-export const getASingleSegmentID = (
+const {
+  PENDO_PSSANDBOX_SUB_ID,
+  POST_SEGMENTS_HERE_SUB_ID,
+  PENDO_CURRENT_PSSANDBOX_JWT,
+} = process.env;
+const pendoDomain = 'https://app.pendo.io';
+const getAllSegmentsEndpoint = `${pendoDomain}/api/s/${PENDO_PSSANDBOX_SUB_ID}/segment`;
+const postCreateNewSegmentEndpoint = `${pendoDomain}/api/s/${POST_SEGMENTS_HERE_SUB_ID}/segment`;
+
+export const getSegmentsFromUser = (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
-  const { PENDO_PSSANDBOX_SUB_ID } = process.env;
-  const { PEND_CURRENT_PSSANDBOX_JWT } = process.env;
-  const segmentGETUrl = `https://app.pendo.io/api/s/${PENDO_PSSANDBOX_SUB_ID}/segment`;
-
-  axios.get(segmentGETUrl, {
+  axios.get(getAllSegmentsEndpoint, {
     headers: {
       'Content-Type': 'application/json',
-      Cookie: `pendo.sess.jwt=${PEND_CURRENT_PSSANDBOX_JWT}`,
+      Cookie: `pendo.sess.jwt=${PENDO_CURRENT_PSSANDBOX_JWT}`,
     },
   })
-    .then((data) => {
-      console.log(data, 'this is my response');
+    .then((response) => {
+      res.locals.originalSegments = response.data;
       next();
     })
     .catch((err) => {
-      console.log('there was the following error', err);
+      console.log('problem with getting all segments ...', err);
     });
+};
+
+export const postNewSegments = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const { originalSegments } = res.locals;
+
+  const mySegments = originalSegments.map((aSingleSegment: any) => {
+    const aSegmentObject = {
+      id: 'id',
+      name: 'name',
+      flagName: 'flagName',
+      shared: 'shared',
+      definition: 'definition',
+      pipeline: 'pipeline',
+    };
+
+    aSegmentObject.id = aSingleSegment.id;
+    aSegmentObject.name = aSingleSegment.name;
+    aSegmentObject.flagName = aSingleSegment.flagName;
+    aSegmentObject.shared = aSingleSegment.shared;
+    aSegmentObject.definition = aSingleSegment.definition;
+    aSegmentObject.pipeline = aSingleSegment.pipeline;
+
+    return aSegmentObject;
+  });
+
+  mySegments.map((aSingleSegmentObject: any) => {
+    const data = {
+      name: aSingleSegmentObject.name,
+      flagName: aSingleSegmentObject.flagName,
+      definition: aSingleSegmentObject.definition,
+      pipeline: aSingleSegmentObject.pipeline,
+    };
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Cookie: `pendo.sess.jwt=${PENDO_CURRENT_PSSANDBOX_JWT}`,
+      },
+    };
+
+    return axios.post(postCreateNewSegmentEndpoint, data,config)
+      .then((response) => {
+        // TODO: add count for segment amount migrated.
+        console.log(response, '----------------> MIGRATED SEGMENTS.');
+        next();
+      })
+      .catch((err) => {
+        console.log('there was the following error', err.response);
+      });
+  });
 };
 
 export const logSomething = (
