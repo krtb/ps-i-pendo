@@ -36,7 +36,7 @@ export const postNewSegments = (
   next: NextFunction,
 ) => {
   const { originalSegments } = res.locals;
-
+  // TODO: Check if you can remove 1 level of mapping. May not be needed.
   const mySegments = originalSegments.map((aSingleSegment: any) => {
     const aSegmentObject = {
       id: 'id',
@@ -46,7 +46,7 @@ export const postNewSegments = (
       definition: 'definition',
       pipeline: 'pipeline',
     };
-
+    // TODO: Do I need an id?
     aSegmentObject.id = aSingleSegment.id;
     aSegmentObject.name = aSingleSegment.name;
     aSegmentObject.flagName = aSingleSegment.flagName;
