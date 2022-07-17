@@ -56,15 +56,14 @@
       let divObjectsArray = transformHTMLCollectionToArray(divWithCheckboxes)
 
       /**
-        * Split() on, '=',passed into Input Element ID string.
-        * Will break if string does not include above characcter.
+        * Use pendo function findGuideById() to filter on guide id, the check if isComplete() === true.
         * @param { String } justAGuideIdString - A string represnting the Guide ID, that has been parsed out of the Element's ID.
         * @param { Object } pendo - Explicilty passing in the Pendo object as variable, for clarity.
-        * @return { Boolean } findAGuide - True/False returned, dependent on if a Guide's ID currently exists in the pendo.guides array.
+        * @return { Boolean } isGuideComplete - True/False returned, dependent on if a Guide's ID currently exists in the pendo.guides array.
         */
       function checkGuideState(justAGuideIdString, pendo) {
-        let findAGuide = pendo.findGuideById(justAGuideIdString) !== null || undefined ? pendo.findGuideById(justAGuideIdString).isComplete() : false
-        return findAGuide
+        let isGuideComplete = pendo.findGuideById(justAGuideIdString) !== null || undefined ? pendo.findGuideById(justAGuideIdString).isComplete() : false
+        return isGuideComplete
       }
 
       divObjectsArray.forEach((inputCheckboxElement) =>{
