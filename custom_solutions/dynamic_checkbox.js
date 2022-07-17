@@ -53,7 +53,7 @@
       * @return { Array} myCurrentGuideAndCheckboxesArray - An array of objects built in this function.
       */
     async function updateCheckboxState(pendo){
-      let divObjectsArray = transformHTMLCollectionToArray(divWithCheckboxes)
+      let arrayOfInnerDivObjects = transformHTMLCollectionToArray(divWithCheckboxes)
 
       /**
         * Use pendo function findGuideById() to filter on guide id, the check if isComplete() === true.
@@ -66,7 +66,7 @@
         return isGuideComplete
       }
 
-      divObjectsArray.forEach((inputCheckboxElement) =>{
+      arrayOfInnerDivObjects.forEach((inputCheckboxElement) =>{
         let myInputsAndLabelObject = {};
         if(inputCheckboxElement.type === "checkbox"){
 
