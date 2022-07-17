@@ -1,7 +1,10 @@
 (function restrictGlobalVariables(window, document) {
-  // Note: Outer scope variables used in below functions, do not change name.
-  let findByThisString = 'my_checkboxes'
-  let arrayOfAllCurrentGuides = pendo.guides;
+  // Note: Outer scope variables used in below functions,
+  // String naming should be set in the HTML Input element.
+  let divWithCheckboxes = 'my_checkboxes'
+  let dataAttributeString = 'data-guide-id'
+  //----------------------------------------------------
+  let pendoGuidesInProd = pendo.guides;
   let listOfGuideIDsOnly = [];
   let myCurrentGuideAndCheckboxesArray = [];
   
@@ -9,11 +12,11 @@
 
     /**
       * Remove inner html children from a div HTMLColleciton object.
-      * @param { String } findByThisString - The class name of the divs being passed in
+      * @param { String } divWithCheckboxes - The class name of the divs being passed in
       * @return { Array <objects> } onlyInnerDivHTMLElements - An array of HTML objects, from each div Class 
       */
-    function transformHTMLCollectionToArray(findByThisString){
-      let divObj = document.getElementsByClassName(findByThisString)
+    function transformHTMLCollectionToArray(divWithCheckboxes){
+      let divObj = document.getElementsByClassName(divWithCheckboxes)
       
       let onlyInnerDivHTMLElements = [];
       /**
@@ -27,7 +30,6 @@
 
       for (let key in aCopyOfHTMLCollectionOfObjects) {
         if (aCopyOfHTMLCollectionOfObjects[key]) {
-          
           let divChildrenObjects = aCopyOfHTMLCollectionOfObjects[key].children;
 
           for (let key in divChildrenObjects) {            
@@ -50,28 +52,8 @@
       * @param { Document } document - Object to parse.
       * @return { Array} myCurrentGuideAndCheckboxesArray - An array of objects built in this function.
       */
-    async function inputBoxLabelsInhtmlCollectionElementObjects(pendo){
-      let divObjectsArray = transformHTMLCollectionToArray(findByThisString)
-      
-      /**
-        * Split() on, '=',passed into Input Element ID string.
-        * Will break if string does not include above characcter.
-        * @param { String } stringElement - Input Element ID
-        * @return { String } onlyGuideId - The Guide Id
-        */
-      function splitOutGuideId(idStringOfInputElement){
-
-        //Note: validate that the caracter we're looking for, "=", exists in string.
-        let regex = /=/i;
-        let stringContainsCharacterBoolean = regex.test(idStringOfInputElement);
-
-        if(stringContainsCharacterBoolean){
-          //TODO: To remove this in favor of custom html attribute.
-          let onlyGuideId = idStringOfInputElement.split('=')[1]
-          return onlyGuideId
-        }
-
-      }
+    async function updateCheckboxState(pendo){
+      let divObjectsArray = transformHTMLCollectionToArray(divWithCheckboxes)
 
       /**
         * Split() on, '=',passed into Input Element ID string.
@@ -80,44 +62,36 @@
         * @param { Object } pendo - Explicilty passing in the Pendo object as variable, for clarity.
         * @return { Boolean } findAGuide - True/False returned, dependent on if a Guide's ID currently exists in the pendo.guides array.
         */
-      function updateCurrentInputElementStateToMatchGuideState(justAGuideIdString, pendo) {
-        let findAGuide = pendo.findGuideById(justAGuideIdString) !== null || undefined ? pendo.findGuideById(justAGuideIdString).isComplete() : false;
-        return findAGuide;
-      };
-      // TODO: pendo.dom === dom('#_pendo-tour-two_')[0].dataset.guideId) // don't have to split the string
-      divObjectsArray.forEach((key) =>{
+      function checkGuideState(justAGuideIdString, pendo) {
+        let findAGuide = pendo.findGuideById(justAGuideIdString) !== null || undefined ? pendo.findGuideById(justAGuideIdString).isComplete() : false
+        return findAGuide
+      }
+
+      divObjectsArray.forEach((inputCheckboxElement) =>{
         let myInputsAndLabelObject = {};
-        let eachValue = key;
-        
-        if(eachValue.type === "checkbox"){
-          let idStringOfInputElement = eachValue.id;
-          let justAGuideIdString = splitOutGuideId(idStringOfInputElement);
+        if(inputCheckboxElement.type === "checkbox"){
 
-          myInputsAndLabelObject.elementID = idStringOfInputElement;
-          myInputsAndLabelObject.guideState = eachValue.state;
-          myInputsAndLabelObject.lastUpdatedAt = eachValue.lastUpdatedAt;
-          myInputsAndLabelObject.publishedAt = eachValue.publishedAt;
-          myInputsAndLabelObject.guideID = justAGuideIdString;
+          let guideIDDataAttribute = inputCheckboxElement.getAttribute(`${dataAttributeString}`) 
 
-          myInputsAndLabelObject.isCheckedBoolean = updateCurrentInputElementStateToMatchGuideState(justAGuideIdString, pendo);
-          
-          eachValue.checked = myInputsAndLabelObject.isCheckedBoolean;
-          eachValue.disabled = true;
-          myInputsAndLabelObject.isDisabledBoolean = eachValue.disabled;
-          myCurrentGuideAndCheckboxesArray.push(myInputsAndLabelObject);
+          myInputsAndLabelObject.elementID = inputCheckboxElement.id
+          myInputsAndLabelObject.guideID = guideIDDataAttribute
+          myInputsAndLabelObject.isCheckedBoolean = checkGuideState(guideIDDataAttribute, pendo)
+          inputCheckboxElement.checked = myInputsAndLabelObject.isCheckedBoolean
+          myInputsAndLabelObject.isDisabledBoolean = inputCheckboxElement.disabled
+          myCurrentGuideAndCheckboxesArray.push(myInputsAndLabelObject)
 
-        };
+        }
 
       });
       
-    };
+    }
 
     /**
       * Get each Pendo Guide Id that present.
-      * @param { Array } arrayOfAllCurrentGuides - An empty array, to push IDs to
+      * @param { Array } pendoGuidesInProd - An empty array, to push IDs to
       */
-      async function findCurrentGuidesOnly(arrayOfAllCurrentGuides){
-      arrayOfAllCurrentGuides.map((aGuideItem)=>{
+      async function filterOnGuideID(pendoGuidesInProd){
+      pendoGuidesInProd.map((aGuideItem)=>{
         listOfGuideIDsOnly.push(aGuideItem.id)
       })
     }
@@ -128,10 +102,8 @@
       * @param { Document } - DOM, to be manipulated
       */
     async function helperFunction(pendo) {
-      findCurrentGuidesOnly(arrayOfAllCurrentGuides)
-      inputBoxLabelsInhtmlCollectionElementObjects(pendo)
-    
-      console.log(myCurrentGuideAndCheckboxesArray, `<--- logging my test case here: myCurrentGuideAndCheckboxesArray ---`);
+      filterOnGuideID(pendoGuidesInProd)
+      updateCheckboxState(pendo)
     }
     
     window.onload = init;
