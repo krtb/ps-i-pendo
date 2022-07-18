@@ -1,13 +1,13 @@
 (function restrictGlobalVariables(window, document, pendo) {
-  // Note: Outer scope variables used in below functions,
-  // Changes to string names should be set in the HTML Input element first.
+  /** Changes to string names should be set in the HTML Input element first. */
   let divWithInputsClassName = 'my_checkboxes';
   let htmlElementHasTypeOf = 'checkbox';
   let dataAttributeString = 'data-guide-id';
 
-  let pendoGuidesInProd = pendo.guides;
+  let pendoGuidesPublicOrStaged = pendo.guides;
+  /** guideInfoContainer[] is helpful to output to console when debugging. */
+  let guideInfoContainer = [];
   let listOfGuideIDsOnly = [];
-  let myCurrentGuideAndCheckboxesArray = [];
   
   {
 
@@ -24,9 +24,9 @@
        * to iterate over if adding, moving, or removing nodes.
        * https://developer.mozilla.org/en-US/docs/Web/API/HTMLCollection
       */
-      // Note: Shallow copy in order to include nested objects.
-      let aCopyOfHTMLCollectionOfObjects = document.getElementsByClassName(divWithInputsClassName); //Note: Will contain multiple divs, with input boxes as inner elements
-
+      /** Shallow copy in order to include nested objects. */
+      /**  Will contain multiple divs, with input boxes as inner elements. */
+      let aCopyOfHTMLCollectionOfObjects = document.getElementsByClassName(divWithInputsClassName);
       for (let key in aCopyOfHTMLCollectionOfObjects) {
         if (aCopyOfHTMLCollectionOfObjects[key]) {
           let divChildrenObjects = aCopyOfHTMLCollectionOfObjects[key].children;
@@ -47,13 +47,13 @@
     /**
       * Turns object collection into an array, 
       builds new object with required information, 
-      pushes to myCurrentGuideAndCheckboxesArray[].
+      pushes to guideInfoContainer[].
       * @param { Object } pendo - The Pendo object.
       * @param { String } divWithInputsClassName - String of div class, declar ed globally above.
       * @param { String } dataAttributeString - String of data attribute with guide ID, declared globally above.
-      * @param { Array} myCurrentGuideAndCheckboxesArray - Array of new objects which surface guide data.
+      * @param { Array <objects>} guideInfoContainer - Array of new objects which surface guide data.
       */
-    async function updateCheckboxState(pendo, divWithInputsClassName, dataAttributeString, myCurrentGuideAndCheckboxesArray){
+    async function updateCheckboxState(pendo, divWithInputsClassName, dataAttributeString, guideInfoContainer){
       let arrayOfInnerDivObjects = transformHTMLCollectionToArray(divWithInputsClassName);
 
       arrayOfInnerDivObjects.forEach((inputCheckboxElement) =>{
@@ -65,16 +65,16 @@
 
         if(inputCheckboxElement.type === `${htmlElementHasTypeOf}` && typeof anExistingGuide !== 'string'){
 
-          // Note: HTML Attributes
+          /** HTML Attributes */
           newObjectPendoData.guideIDDataAttribute = guideIDDataAttribute;
           newObjectPendoData.isDisabledBoolean = inputCheckboxElement.disabled;
           inputCheckboxElement.checked = anExistingGuide.isComplete();
-          // Note: pendo.guide properties and functions
+          /** pendo.guide properties and functions */
           newObjectPendoData.isCompleteBoolean = anExistingGuide.isComplete();
           newObjectPendoData.state = anExistingGuide.state;
           newObjectPendoData.launchMethod = anExistingGuide.launchMethod;
           
-          myCurrentGuideAndCheckboxesArray.push(newObjectPendoData);
+          guideInfoContainer.push(newObjectPendoData);
 
         };
 
@@ -84,39 +84,47 @@
 
     /**
       * Get each Pendo Guide Id that present.
-      * @param { Array } pendoGuidesInProd - Array of Pendo guides that are set to Public
+      * @param { Array <objects>} pendoGuidesPublicOrStaged - Array of Pendo guides that are set to Public or Staged.
       */
-      async function filterOnGuideID(pendoGuidesInProd){
-      pendoGuidesInProd.map((aGuideItem)=>{
+      async function filterOnGuideID(pendoGuidesPublicOrStaged){
+      pendoGuidesPublicOrStaged.map((aGuideItem)=>{
         listOfGuideIDsOnly.push(aGuideItem.id);
       });
-    };
-
-    /**
-      * Contains functions to be run on Window load.
-      * @param { Object } pendo - Contains Pendo functions and guide data. 
-      * Note: READ only. Cannot WRITE to Pendo object.
-      */
-    async function helperFunction(pendo) {
-      filterOnGuideID(pendoGuidesInProd);
-      updateCheckboxState(
-        pendo, 
-        divWithInputsClassName, 
-        dataAttributeString, 
-        myCurrentGuideAndCheckboxesArray
-      );
     };
     
     window.onload = init;
 
     /**
       * Runs once Window is loaded.
+      * @param { Object } pendo - The Pendo instance object.
+      * @param { Array <objects>} pendoGuidesPublicOrStaged - Only guide found within pendo object.
+      * @param { String } divWithInputsClassName - Global variable with expected div classname.
+      * @param { String } dataAttributeString - Data Attribute expected to exist on all input elements.
+      * @param { Array } guideInfoContainer - Array of objects which contain information on input element and expected guide.
       */
-    function init(pendo) {
-      helperFunction(pendo);
+    async function init(
+      pendo, 
+      pendoGuidesPublicOrStaged, 
+      divWithInputsClassName, 
+      dataAttributeString, 
+      guideInfoContainer
+    ) {
+      filterOnGuideID(pendoGuidesPublicOrStaged);
+      updateCheckboxState(
+        pendo, 
+        divWithInputsClassName, 
+        dataAttributeString, 
+        guideInfoContainer
+      );
     };
 
-    init(pendo);
+    init(
+      pendo,
+      pendoGuidesPublicOrStaged,
+      divWithInputsClassName,
+      dataAttributeString,
+      guideInfoContainer
+    );
 
   };
   
