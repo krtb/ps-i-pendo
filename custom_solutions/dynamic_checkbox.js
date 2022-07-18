@@ -5,7 +5,7 @@
   let dataAttributeString = 'data-guide-id';
 
   let pendoGuidesPublicOrStaged = pendo.guides;
-  /** guideInfoContainer[] is helpful to output to console when debugging. */
+  /** guideInfoContainer[] is helpful to output to the console when debugging. */
   let guideInfoContainer = [];
   let listOfGuideIDsOnly = [];
   
@@ -48,7 +48,7 @@
       builds new object with required information, 
       pushes to guideInfoContainer[].
       * @param { Object } pendo - The Pendo object.
-      * @param { String } divWithInputsClassName - String of div class, declar ed globally above.
+      * @param { String } divWithInputsClassName - String of div class, declared globally above.
       * @param { String } dataAttributeString - String of data attribute with guide ID, declared globally above.
       * @param { Array <objects>} guideInfoContainer - Array of new objects which surface guide data.
       */
@@ -82,7 +82,7 @@
     };
 
     /**
-      * Get each Pendo Guide Id that present.
+      * Get each Pendo Guide Id that is present.
       * @param { Array <objects>} pendoGuidesPublicOrStaged - Array of Pendo guides that are set to Public or Staged.
       */
       async function filterOnGuideID(pendoGuidesPublicOrStaged){
@@ -94,7 +94,7 @@
     window.onload = init;
 
     /**
-      * Runs once Window is loaded.
+      * Runs once the Window is loaded.
       * @param { Object } pendo - The Pendo instance object.
       * @param { Array <objects>} pendoGuidesPublicOrStaged - Only guide found within pendo object.
       * @param { String } divWithInputsClassName - Global variable with expected div classname.
@@ -115,6 +115,7 @@
         dataAttributeString, 
         guideInfoContainer
       );
+      console.log(pendoGuidesPublicOrStaged, `<--- logging my test case here: pendoGuidesPublicOrStaged ---`);
     };
 
     init(
