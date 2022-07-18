@@ -65,7 +65,7 @@
 
         if(inputCheckboxElement.type === `${htmlElementHasTypeOf}` && typeof anExistingGuide !== 'string'){
 
-          //Note: HTML Attributes
+          // Note: HTML Attributes
           newObjectPendoData.guideIDDataAttribute = guideIDDataAttribute;
           newObjectPendoData.isDisabledBoolean = inputCheckboxElement.disabled;
           inputCheckboxElement.checked = anExistingGuide.isComplete();
@@ -94,7 +94,8 @@
 
     /**
       * Contains functions to be run on Window load.
-      * @param { Object } pendo - Contains PEndo functions and guide data to READ. Cannot write to Pendo object.
+      * @param { Object } pendo - Contains Pendo functions and guide. 
+      * Note: READ only. Cannot WRITE to Pendo object.
       */
     async function helperFunction(pendo) {
       filterOnGuideID(pendoGuidesInProd);
