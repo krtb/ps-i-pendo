@@ -43,7 +43,6 @@
       return onlyInnerDivHTMLElements;
     };
 
-    
     /**
       * Turns object collection into an array, 
       builds new object with required information, 
@@ -59,11 +58,11 @@
       arrayOfInnerDivObjects.forEach((inputCheckboxElement) =>{
         let newObjectPendoData = {};
 
-        let guideIDDataAttribute = inputCheckboxElement.getAttribute(`${dataAttributeString}`);
+        let guideIDDataAttribute = inputCheckboxElement.getAttribute(dataAttributeString);
         let pendoGuideById = pendo.findGuideById(guideIDDataAttribute);
         let anExistingGuide = (pendoGuideById !== null) && (pendoGuideById !== undefined)? pendoGuideById : 'Missing Guide ID';        
 
-        if(inputCheckboxElement.type === `${htmlElementHasTypeOf}` && typeof anExistingGuide !== 'string'){
+        if(inputCheckboxElement.type === htmlElementHasTypeOf && typeof anExistingGuide !== 'string'){
 
           /** HTML Attributes */
           newObjectPendoData.guideIDDataAttribute = guideIDDataAttribute;
