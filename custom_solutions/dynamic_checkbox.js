@@ -94,7 +94,7 @@
 
     /**
       * Contains functions to be run on Window load.
-      * @param { Object } pendo - Contains Pendo functions and guide. 
+      * @param { Object } pendo - Contains Pendo functions and guide data. 
       * Note: READ only. Cannot WRITE to Pendo object.
       */
     async function helperFunction(pendo) {
