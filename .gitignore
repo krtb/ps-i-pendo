@@ -1,4 +1,7 @@
-toDelete.js
+# My Sensitive Folders
+csv_files
+json_files
+
 *.DS_STORE
 # Logs
 logs
