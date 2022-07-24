@@ -19,39 +19,37 @@ Object.assign(module.exports,
       * Delay requests made to an API Endpoint in order avoid throttling by server.
       * @param {array} itemsToSendArray - Array of items to perform CRUD actions on.
       * @param {string} axiosURL - URL where request should be sent.
-      * @param {object} axiosData - Data object required by specificied endpoint.
-      * @param {object} axiosConfig - Axiox configuration options object.
+      * @param {object} axiosDataObject - Data object required by specificied endpoint.
+      * @param {object} axiosConfigObject - Axiox configuration options object.
       * @param {object} req - Express middleware method.
       * @param {object} res - Express middleware method.
       * @param {object} next - Express middleware method.
       */
-    throttledPostRequest: async (itemsToSendArray, axiosURL, axiosData, axiosConfig, req, res, next) => {
+    throttledPostRequest: async (itemsToSendArray, axiosURL, axiosDataObject, axiosConfigObject, req, res, next) => {
       let timeToDelayInSeconds = 1000;
-      let itemsToSendArray = itemsToSendArray;
-      let axiosURL = '';
-      let axiosData = {
-        'query': query,
-        'variables': itemsToSendArray[i]
-      };
-      let axiosConfig = {
-        headers: {
-          'Content-Type': `application/json`,
-          'Authorization': `${process.env.MONDAY_APIV2_TOKEN_KURT}` 
-        },
-      };
-
       let startingRequestsMessage = `*** Starting Requests ***`;
       let timeOutCaughtErrorMessage = `There was an error in throttledPostRequest() `;
       let successItemCreatedMessage = `...Success, Item Created`
       let completedRequestMessage = `*** Completed Requests ***`;
 
+      // let axiosDataObject = {
+      //   'query': query,
+      //   'variables': itemsToSendArray[i]
+      // };
+
+      // let axiosConfigObject = {
+      //   headers: {
+      //     'Content-Type': `application/json`,
+      //     'Authorization': `${process.env.MONDAY_APIV2_TOKEN_KURT}` 
+      //   },
+      // };
 
       console.log(startingRequestsMessage);
       for (var i = 0; i <= itemsToSendArray.length - 1; i++) {
 
         console.log(`Working on item ${i} of ${itemsToSendArray.length - 1}...`)
     
-        axios.post(axiosURL, axiosData, axiosConfig)
+        axios.post(axiosURL, axiosDataObject, axiosConfigObject)
 
         .then((response)=>{
 
@@ -83,13 +81,11 @@ Object.assign(module.exports,
       * Delay requests made to an API Endpoint in order avoid throttling by server.
       * @param {array} itemsArray - Array of items to perform CRUD actions on.
       * @param {number} timeToDelayInSeconds - Length of time requests should be delayed, in seconds.
-      * @param {array} axiosConfig - Axiox configuration options object.
+      * @param {array} axiosConfigObject - Axiox configuration options object.
       * @param {array} option1 - First optional array to match or diff on.
       * @param {array} option2 - Second optional array to match or diff on.
       */
-    throttled_iterator: async (itemsArray, timeToDelayInSeconds, option1, option2) => {
-      let itemsArray = itemsArray;
-
+    throttled_iterator: async function throttled_iterator (itemsArray, timeToDelayInSeconds, option1, option2) {
       let startingRequestsMessage = `*** Starting Requests ***`;
       let timeOutCaughtErrorMessage = `There was an error in throttledPostRequest() `;
       let successItemCreatedMessage = `...Success, Item Created`
