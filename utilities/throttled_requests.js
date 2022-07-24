@@ -25,7 +25,7 @@ Object.assign(module.exports,
       * @param {object} res - Express middleware method.
       * @param {object} next - Express middleware method.
       */
-    throttledPostRequest: async (itemsToSendArray, axiosURL, axiosDataObject, axiosConfigObject, req, res, next) => {
+    throttledPostRequest: async function throttledPostRequest(itemsToSendArray, axiosURL, axiosDataObject, axiosConfigObject, req, res, next) {
       let timeToDelayInSeconds = 1000;
       let startingRequestsMessage = `*** Starting Requests ***`;
       let timeOutCaughtErrorMessage = `There was an error in throttledPostRequest() `;
@@ -78,7 +78,7 @@ Object.assign(module.exports,
       return;
     },
     /**
-      * Delay requests made to an API Endpoint in order avoid throttling by server.
+      * Delay loop to free up memory for large data comparisons.
       * @param {array} itemsArray - Array of items to perform CRUD actions on.
       * @param {number} timeToDelayInSeconds - Length of time requests should be delayed, in seconds.
       * @param {array} axiosConfigObject - Axiox configuration options object.
