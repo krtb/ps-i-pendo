@@ -79,8 +79,15 @@ Object.assign(module.exports,
         
       return;
     },
+    /**
+      * Delay requests made to an API Endpoint in order avoid throttling by server.
+      * @param {array} itemsArray - Array of items to perform CRUD actions on.
+      * @param {number} timeToDelayInSeconds - Length of time requests should be delayed, in seconds.
+      * @param {array} axiosConfig - Axiox configuration options object.
+      * @param {array} option1 - First optional array to match or diff on.
+      * @param {array} option2 - Second optional array to match or diff on.
+      */
     throttled_iterator: async (itemsArray, timeToDelayInSeconds, option1, option2) => {
-      let timeToDelayInSeconds = 1000;
       let itemsArray = itemsArray;
 
       let startingRequestsMessage = `*** Starting Requests ***`;

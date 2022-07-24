@@ -1,7 +1,7 @@
 # My Sensitive Folders
 csv_files
 json_files
-compare_two_files
+compare_two_files/*
 
 *.DS_STORE
 # Logs
