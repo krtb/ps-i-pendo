@@ -43,7 +43,7 @@ Object.assign(module.exports,
       let startingRequestsMessage = `*** Starting Requests ***`;
       let timeOutCaughtErrorMessage = `There was an error in throttledPostRequest() `;
       let successItemCreatedMessage = `...Success, Item Created`
-      let comepltedRequestMessage = `*** Completed Requests ***`;
+      let completedRequestMessage = `*** Completed Requests ***`;
 
 
       console.log(startingRequestsMessage);
@@ -75,9 +75,37 @@ Object.assign(module.exports,
         /** Timeout set to pause requests, when timeout completes loop through next item. */
         await timer(timeToDelayInSeconds);
       }
-      console.log(comepltedRequestMessage);
+      console.log(completedRequestMessage);
         
       return;
-    }
+    },
+    throttled_iterator: async (itemsArray, timeToDelayInSeconds, option1, option2) => {
+      let timeToDelayInSeconds = 1000;
+      let itemsArray = itemsArray;
+
+      let startingRequestsMessage = `*** Starting Requests ***`;
+      let timeOutCaughtErrorMessage = `There was an error in throttledPostRequest() `;
+      let successItemCreatedMessage = `...Success, Item Created`
+      let completedRequestMessage = `*** Completed Requests ***`;
+
+
+      console.log(startingRequestsMessage);
+      for (var i = 0; i <= itemsArray.length - 1; i++) {
+        try {
+          console.log(`Working on item ${i} of ${itemsArray.length - 1}...`)
+          /** Timeout set to pause requests, when timeout completes loop through next item. */
+          await timer(timeToDelayInSeconds);
+        } catch (error) {
+          if( error.response ){
+            console.log(error.response.data);
+            console.log(timeOutCaughtErrorMessage + error);
+          };
+        }
+
+      }
+
+      console.log(completedRequestMessage);
+      return;
+    },
   }
 );
