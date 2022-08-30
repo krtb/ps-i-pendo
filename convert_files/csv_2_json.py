@@ -1,4 +1,5 @@
-from csv2json import convert # Source => https://github.com/oplatek/csv2json/blob/master/README.md
+from csv2json import convert 
+# Source => https://github.com/oplatek/csv2json/blob/master/README.md
 
 """
 Abstracted string variables to remove room for error.
@@ -13,13 +14,13 @@ Returns:
     An interpolated string using f-strings, python ^3.6
 """
 # CSV Variables
-input_csv_file_path='../csv_files/'
-csv_file_name='2022-07-23_beepro_account_remap'
+input_csv_file_path='../compare_two_files/'
+csv_file_name='growens_sorted_base_75'
 csv_type='.csv'
 
 # JSON Variables
 output_json_file_path='../json_files/'
-new_json_title ='kb_test_5'
+new_json_title ='sorted_json_deltas_75'
 json_type='.json'
 
 input_csv_file_path = (f'{input_csv_file_path}{csv_file_name}{csv_type}')
