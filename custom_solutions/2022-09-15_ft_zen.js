@@ -23,19 +23,19 @@
       const { event } = e.data;
       if (event === 'forethoughtWidgetClosed') {
         /** Use pendo.enableLogging() to enabled log statements in console. */
-        pendo.log('===> Closed Forethought Chat')
+        pendo.log('===> CLOSED Forethought Chat')
         dom('iframe#forethought-chat')[0].setAttribute("hidden", true);
         /** Could remove - using resource center id - Used to re-open Resource Center Home View on close of chat */
         //pendo.showGuideById('CQ1bEqAbFM8e6Z3kxCi03CP8LV0');
       }
       if (event === 'forethoughtWidgetOpened') {
         /** Use pendo.enableLogging() to enabled log statements in console. */
-        pendo.log('---> Opened Forethought Chat')
+        pendo.log('---> OPENED Forethought Chat')
         dom('iframe#forethought-chat')[0].setAttribute("hidden", true);
       }
       if (event === 'forethoughtWidgetLoaded') {
         /** Use pendo.enableLogging() to enabled log statements in console. */
-        pendo.log('widget loaded');
+        pendo.log('---> LOADED Forethought Chat');
         dom('iframe#forethought-chat')[0].setAttribute("hidden", true);
         openForethoughtCloseRC();
       }
