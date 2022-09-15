@@ -66,7 +66,7 @@
     function openForethoughtCloseRC() {
       /** Use pendo.enableLogging() to enabled log statements in console. */
       pendo.log('<--- OPEN FORETHOUGHT CLOSE RC FUNCTION')
-
+      /** {Warning} Forethought advises order of methods to be Open, then Show. */
       Forethought('widget', 'open');
       setTimeout(function () {
         Forethought('widget', 'show');
