@@ -1,8 +1,6 @@
 (function (window, document, dom) {
-
   /** Check if Pendo Visual Designer is open */
   if (!pendo.designer) {
-    
     /** Close Resource Center after timeout, triggered on Module open and load. */
     step.eventRouter.eventable.trigger('pendoEvent', {
       action: 'returnToResourceCenterHome'
@@ -40,9 +38,8 @@
     })
     /**
      * Creates a Script Tag Element in DOM, set's required attributes, and appends Node
-     * {chat_integration_api_key} Global variable defined at top of file to securely remove if committing or sharing.
      */
-    function injectChatApiScript(chat_integration_api_key) {
+    function injectChatApiScript() {
       /** Use pendo.enableLogging() to enabled log statements in console. */
       pendo.log('<--- helper function loaded')
 
