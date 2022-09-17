@@ -33,7 +33,9 @@
         /** Use pendo.enableLogging() to enabled log statements in console. */
         pendo.log('---> LOADED Forethought Chat');
         dom('iframe#forethought-chat')[0].setAttribute("hidden", true);
-        openForethoughtCloseRC();
+        /** Hide title which appears above chat box */
+        dom('#forethought-chat')[0].title = ""
+        forethoughtOpenShow();
       }
     })
     /**
@@ -58,7 +60,7 @@
     /**
      * Opens Forethought Chat via API method. After half a second, calls Forethought API to be displayed.
      */
-    function openForethoughtCloseRC() {
+    function forethoughtOpenShow() {
       /** Use pendo.enableLogging() to enabled log statements in console. */
       pendo.log('<--- OPEN FORETHOUGHT CLOSE RC FUNCTION')
       /** {Warning} Forethought advises order of methods to be Open, then Show. */
@@ -77,7 +79,7 @@
         injectChatApiScript()
       } else {
         dom('iframe#forethought-chat')[0].setAttribute("hidden", true);
-        openForethoughtCloseRC();
+        forethoughtOpenShow();
       }
     }
   }
