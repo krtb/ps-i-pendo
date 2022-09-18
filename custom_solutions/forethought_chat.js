@@ -9,7 +9,7 @@
       pendo.onGuideAdvanced();
     }, 250);
     /** Function defined at bottom of file */
-    init();
+    injectOrOpenForethought();
     /** 
      * Listen for Forethought API Events, originating in 'solve-widget.forethought.ai/embed.js'
      * {WARNING} If Forethought API event names change, this code will break.
@@ -35,7 +35,8 @@
         dom('iframe#forethought-chat')[0].setAttribute("hidden", true);
         /** Hide title which appears above chat box */
         dom('#forethought-chat')[0].title = ""
-        forethoughtOpenShow();
+        /** Open Forethought by calling API Methods in required order*/
+        openForethoughtChat();
       }
     })
     /**
@@ -60,7 +61,7 @@
     /**
      * Opens Forethought Chat via API method. After half a second, calls Forethought API to be displayed.
      */
-    function forethoughtOpenShow() {
+    function openForethoughtChat() {
       /** Use pendo.enableLogging() to enabled log statements in console. */
       pendo.log('<--- OPEN FORETHOUGHT CLOSE RC FUNCTION')
       /** {Warning} Forethought advises order of methods to be Open, then Show. */
@@ -74,12 +75,15 @@
      * IF not running first load of Forethought API Script, 
      * AND hides Forethought Chat badge while calling function to open Forethought/Close Pendo Resource Center 
      */
-    function init() {
+    function injectOrOpenForethought() {
       if (typeof Forethought !== 'function') {
+        /** Add Forethought Script Tag with API Key */
         injectChatApiScript()
       } else {
+        /** Hide Forethought Chat badge */
         dom('iframe#forethought-chat')[0].setAttribute("hidden", true);
-        forethoughtOpenShow();
+        /** Open Forethought by calling API Methods in required order*/
+        openForethoughtChat();
       }
     }
   }
