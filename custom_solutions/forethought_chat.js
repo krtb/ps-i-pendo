@@ -1,4 +1,4 @@
-(function (window, document, dom) {
+(function restrictGlobalVariables(window, document, dom) {
   /** Check if Pendo Visual Designer is open */
   if (!pendo.designer) {
     /** Close Resource Center after timeout, triggered on Module open and load. */
