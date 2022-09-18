@@ -71,9 +71,11 @@
       }, 500);
     }
     /**
-     * Check if Forethought Chat script has been instantiated. Expected as a Function type.
-     * IF not running first load of Forethought API Script, 
-     * AND hides Forethought Chat badge while calling function to open Forethought/Close Pendo Resource Center 
+     * Check if Forethought Chat script has been instantiated on page. 
+     * Forethought Expected as a Function type.
+     * IF not running first load Forethought Script Tag, 
+     * ELSE hide Forethought Chat Badge
+     * AND open Forethought Chat View
      */
     function injectOrOpenForethought() {
       if (typeof Forethought !== 'function') {
