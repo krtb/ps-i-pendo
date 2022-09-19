@@ -21,7 +21,7 @@
       const { event } = e.data;
       if (event === 'forethoughtWidgetClosed') {
         /** Use pendo.enableLogging() to enabled log statements in console. */
-        pendo.log('===> CLOSED Forethought Chat')
+        pendo.log('---> CLOSED Forethought Chat')
         dom('iframe#forethought-chat')[0].setAttribute("hidden", true);
       }
       if (event === 'forethoughtWidgetOpened') {
@@ -44,7 +44,7 @@
      */
     function injectChatApiScript() {
       /** Use pendo.enableLogging() to enabled log statements in console. */
-      pendo.log('<--- helper function loaded')
+      pendo.log('---> INJECTED Chat API Script Tag')
 
       var forethoughtscript = document.createElement("script");
       forethoughtscript.setAttribute(
@@ -63,7 +63,7 @@
      */
     function openForethoughtChat() {
       /** Use pendo.enableLogging() to enabled log statements in console. */
-      pendo.log('<--- OPEN FORETHOUGHT CLOSE RC FUNCTION')
+      pendo.log('---> OPENED Forethought with API Methods')
       /** {Warning} Forethought advises order of methods to be Open, then Show. */
       Forethought('widget', 'open');
       setTimeout(function () {
@@ -78,6 +78,7 @@
      * AND open Forethought Chat View
      */
     function injectOrOpenForethought() {
+      pendo.log('---> CHECK for Forethought OR OPEN Forethought')
       if (typeof Forethought !== 'function') {
         /** Add Forethought Script Tag with API Key */
         injectChatApiScript()
