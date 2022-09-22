@@ -13,9 +13,6 @@
     /** 
      * Listen for Forethought API Events, originating in 'solve-widget.forethought.ai/embed.js'
      * {WARNING} If Forethought API event names change, this code will break.
-     * {WARNING} Network Latency issues may arise due to Forethought CDN, as script is injected.
-     * - To avoid the possibility of latency issues, Pendo recommends customers install custom chat API scripts in their application code.
-     * - Currently, the Forethought Chat API is loaded by the function, injectChatApiScript()
      */
     window.addEventListener('message', e => {
       const { event } = e.data;
@@ -40,7 +37,10 @@
       }
     })
     /**
-     * Creates a Script Tag Element in DOM, set's required attributes, and appends Node
+     * {WARNING} Network Latency issues may arise due to Forethought CDN, as script is injected.
+     * To avoid the possibility of latency issues:
+     * Pendo recommends customers install Custom Chat API scripts in their application code.
+     * Current code makes makes initial call to CDN after Module is loaded.
      */
     function injectChatApiScript() {
       /** Use pendo.enableLogging() to enabled log statements in console. */
@@ -64,7 +64,7 @@
     function openForethoughtChat() {
       /** Use pendo.enableLogging() to enabled log statements in console. */
       pendo.log('---> OPENED Forethought with API Methods')
-      /** {Warning} Forethought advises order of methods to be Open, then Show. */
+      /** {WARNING} Forethought advises order of methods to be Open, then Show. */
       Forethought('widget', 'open');
       setTimeout(function () {
         Forethought('widget', 'show');
